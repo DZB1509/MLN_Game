@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Game Puzzle Câu Hỏi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Âm thanh -->
+  <audio id="beep-sound" src="beep.mp3"></audio>
+  <audio id="fail-sound" src="fail.mp3"></audio>
+  <audio id="tick-sound" src="tick.mp3"></audio>
+  <audio id="nohu-sound" src="nohu.mp3" preload="auto" loop></audio>
+  <audio id="correct-sound" src="correct.mp3" preload="auto"></audio>
+  <audio id="fireworks-sound" src="fireworks.mp3" preload="auto" loop></audio>
+
+  <!-- MÀN HÌNH INTRO -->
+  <div id="intro-screen">
+    <video id="intro-video" autoplay muted loop playsinline>
+      <source src="intro.mp4" type="video/mp4">
+    </video>
+
+    <div id="intro-overlay">
+      <h1>Chào mừng đến với Game Puzzle!</h1>
+      <h2>Nơi bạn thuộc về</h2>
+      <button id="unmute-button">🔊 Click me</button>
+      <button id="skip-button">Start game</button>
+    </div>
+  </div>
+
+  <!-- NỘI DUNG CHÍNH (ban đầu ẩn) -->
+  <div id="main-layout" class="hidden">
+    <div id="left-panel">
+      <svg id="puzzle" viewBox="0 0 600 800" width="600" height="800"></svg>
+    </div>
+
+    <div id="right-panel">
+      <div id="quiz-box" class="hidden">
+        <h3 id="question"></h3>
+        <input type="text" id="answer" placeholder="Nhập đáp án (có/không dấu đều được)" />
+        <button onclick="submitAnswer()">Trả lời</button>
+        <p id="result"></p>
+      </div>
+      <p class="hint">👈 Click vào một mảnh để bắt đầu</p>
+    </div>
+  </div>
+
+  <!-- 2 NÚT GÓC PHẢI -->
+  <div id="extra-buttons">
+    <button id="no-hu-btn">🎉 Nổ hũ</button>
+    <button id="giai-ma-btn">🔍 Giải mã</button>
+  </div>
+  </div>
+  </div>
+
+  <!-- MODAL GIẢI THÍCH -->
+  <div id="explain-modal" class="hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">×</span>
+      <div id="explain-text"></div>
+      <button class="modal-btn" onclick="closeModal()">Tiếp tục</button>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN POPUP -->
+  <div id="countdown-modal" class="hidden">
+    <div class="modal-content countdown-content">
+      <span class="close-btn" onclick="closeCountdown()">×</span>
+      <h2>Thời gian trả lời</h2>
+      <div id="timer-display">6</div>
+    </div>
+  </div>
+
+  <!-- POPUP SAI -->
+  <div id="wrong-modal" class="hidden">
+    <div class="modal-content wrong-content">
+      <h2>❌ Sai rồi!</h2>
+      <button class="modal-btn" onclick="closeWrongModal()">Thử lại</button>
+    </div>
+  </div>
+
+  <!-- POPUP NỔ HŨ -->
+  <div id="nohu-modal" class="hidden">
+    <div class="modal-content nohu-content">
+      <h2>🎉 Chúc mừng các bạn 🎉</h2>
+      <h1>"Vùng trời Tổ Quốc"</h1>
+      <p class="meaning">Ý nghĩa: <strong>Yêu nước bắt đầu từ việc ta nhận ra mình đang thuộc về đâu và được nuôi dưỡng
+          khi ta biết gìn giữ và mở rộng vùng trời tinh thần chung ấy.</strong></p>
+      <button class="modal-btn" onclick="closeNoHuModal()">Đóng</button>
+    </div>
+  </div>
+
+  <!-- POPUP GIẢI MÃ (HANGMAN) -->
+  <div id="giai-ma-modal" class="hidden">
+    <div class="modal-content giama-content">
+      <h2>🔍 Giải mã từ bí mật</h2>
+      <div id="hangman-word"></div>
+      <input type="text" id="guess-letter" maxlength="1" placeholder="Nhập 1 chữ cái" />
+      <button onclick="guessLetter()">Đoán</button>
+      <p id="hangman-error" style="color: #d32f2f; font-weight: bold; margin-top: 15px; min-height: 24px;"></p>
+      <p id="wrong-letters" style="margin-top: 20px; font-size: 20px; color: #d32f2f;">
+        Danh sách các chữ đã đoán sai: <span id="wrong-list"></span>
+      </p>
+      <button class="nohu-in-giama" onclick="showNoHuFromGiaiMa()">🎉 Nổ hũ</button>
+    </div>
+  </div>
+
+  <!-- CANVAS PHÁO HOA -->
+  <canvas id="fireworks-canvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
